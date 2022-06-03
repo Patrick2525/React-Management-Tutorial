@@ -1,23 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 내용 출력을 담당하는 부분
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="gray-background">
+     <img src={logo} alt='logo'/>
+     <h2>Let's develop management system!</h2>
     </div>
   );
 }
