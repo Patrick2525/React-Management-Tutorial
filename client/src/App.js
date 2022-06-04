@@ -7,7 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { withStyles } from '@material-ui/core/styles';
+import { useState, useEffect } from 'react';
+//import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
@@ -21,31 +22,31 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const customers = [{
-  'id': 1,
-  'image': 'https://placeimg.com/64/64/1',
-  'name': '홍길동', 
-  'birthday': '961222',
-  'gender': '남자',
-  'job': '대학생'
-},{
-  'id': 2,
-  'image': 'https://placeimg.com/64/64/2',
-  'name': '나상진', 
-  'birthday': '780322',
-  'gender': '남자',
-  'job': '프로그래머'
-},{
-  'id': 3,
-  'image': 'https://placeimg.com/64/64/3',
-  'name': '최의진', 
-  'birthday': '870625',
-  'gender': '남자',
-  'job': '의사'
-}]
+
 
 function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 내용 출력을 담당하는 부분
   const classes = useStyles();
+
+  const [state, setState] = useState({
+    customers: ""
+  });
+  const {customers} = state;
+
+
+  useEffect(() => {
+    callApi()
+      .then(res => setState({customers: res}))
+      .catch(err => console.log(err));
+  },[])
+  console.log(`state.customers : ${state.customers}`);
+
+  const callApi = async () => {
+    const response = await fetch('api/customers');
+    const body = await response.json();
+    return body;
+  }
+
+
   return (
     <Paper /*className={classes.root}*/>
       <Table /*className={classes.table}*/>
@@ -60,11 +61,14 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map( c => {return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/> )})}
+          {customers ? customers.map( c => {return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/> )
+          }) : ""}
         </TableBody>
       </Table>
     </Paper>
   );
 }
 
-export default withStyles(styles)(App);
+//export default withStyles(useStyles)(App);
+export default App;
+
