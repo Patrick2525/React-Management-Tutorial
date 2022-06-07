@@ -10,15 +10,19 @@ import TableCell from '@material-ui/core/TableCell';
 import { useState, useEffect } from 'react';
 //import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    // marginTop: theme.spacing.unit * 3, => 어떻게 적용해야할까???
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   },
   table: {
     minWidth: 1080
+  },
+  progress: {
+    margin: theme.spacing(2)
   }
 }))
 
@@ -28,17 +32,21 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
   const classes = useStyles();
 
   const [state, setState] = useState({
-    customers: ""
+    customers: "",
+    completed: 0
   });
-  const {customers} = state;
-
-
+  const { customers } = state;
+  
   useEffect(() => {
-    callApi()
-      .then(res => setState({customers: res}))
-      .catch(err => console.log(err));
+    let timer = setInterval(progress, 20);
+    // callApi()
+    //   .then(res => {
+    //     setState({customers: res});
+    //     clearInterval(timer);
+    //   })
+    //   .catch(err => console.log(err));
   },[])
-  console.log(`state.customers : ${state.customers}`);
+
 
   const callApi = async () => {
     const response = await fetch('api/customers');
@@ -46,10 +54,16 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
     return body;
   }
 
+  const progress = () => {
+    const {completed} = state;
+    console.log("test completed: "+completed);
+    setState((prevState) => ({ ...prevState, completed: completed >= 100 ? 0 : completed + 1}));
+  }
+
 
   return (
-    <Paper /*className={classes.root}*/>
-      <Table /*className={classes.table}*/>
+    <Paper className={classes.root}>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>번호</TableCell>
@@ -62,7 +76,13 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
         </TableHead>
         <TableBody>
           {customers ? customers.map( c => {return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/> )
-          }) : ""}
+          }) : 
+            <TableRow>
+              <TableCell colSpan="6" align="center">
+                <CircularProgress className={classes.progress} variant="determinate" value={state.completed}/>
+              </TableCell>
+            </TableRow>
+            }
         </TableBody>
       </Table>
     </Paper>
