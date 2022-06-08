@@ -39,12 +39,12 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
   
   useEffect(() => {
     let timer = setInterval(progress, 20);
-    // callApi()
-    //   .then(res => {
-    //     setState({customers: res});
-    //     clearInterval(timer);
-    //   })
-    //   .catch(err => console.log(err));
+    callApi()
+      .then(res => {
+        setState({customers: res});
+        clearInterval(timer);
+      })
+      .catch(err => console.log(err));
   },[])
 
 
