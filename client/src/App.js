@@ -87,10 +87,12 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
               <TableCell>생년월일</TableCell>
               <TableCell>성별</TableCell>
               <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers ? customers.map( c => {return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/> )
+            {customers ? customers.map( c => 
+              {return ( <Customer stateRefresh={stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/> )
             }) : 
               <TableRow>
                 <TableCell colSpan="6" align="center">
