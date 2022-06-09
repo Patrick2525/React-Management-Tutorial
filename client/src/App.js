@@ -39,8 +39,8 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
 
   const stateRefresh = () => {
     setState({
-      customers: '',
-      completed:0
+      customers: "",
+      completed : 0
     });
     callApi()
       .then(res => {
