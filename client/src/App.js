@@ -36,6 +36,19 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
     customers: "",
     completed: 0
   });
+
+  const stateRefresh = () => {
+    setState({
+      customers: '',
+      completed:0
+    });
+    callApi()
+      .then(res => {
+        setState({customers: res});
+      })
+      .catch(err => console.log(err));
+  }
+
   const { customers } = state;
   
   useEffect(() => {
@@ -88,7 +101,7 @@ function App() { // App.js => 실질적으로 웹사이트의 화면에 대한 �
           </TableBody>
         </Table>
       </Paper>
-      <CustomerAdd/>
+      <CustomerAdd stateRefresh={stateRefresh}/>
     </div>
   );
 }

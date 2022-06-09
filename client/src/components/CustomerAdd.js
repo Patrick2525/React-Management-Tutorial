@@ -1,7 +1,7 @@
 import Reac, {useState} from 'react'
 import {post} from 'axios';
 
-function CustomerAdd() {
+function CustomerAdd(props) {
     const [state, setState] = useState({
         file: null,
         userName: '',
@@ -16,6 +16,7 @@ function CustomerAdd() {
         addCustomer() 
             .then((response) => {
                 console.log(response.data);
+                props.stateRefresh();
             })
         setState({
             file: null,
@@ -25,7 +26,6 @@ function CustomerAdd() {
             job: '',
             fileName: ''
         })
-        window.location.reload();
     }
 
     const handleFileChange = (e) => {
